@@ -118,41 +118,13 @@ export function getAllAlreadyDisplayedRowIds() {
     return allDisplayedEmAlertResponse
 }
 
-/*export async function writeLatestEmAlertResponse(emAlertResponse) {
-    // for the first time, both would be the same until the first click
-    let latestEmAlertResponsePath
-    if(fse.pathExists('/latestEmAlertResponse.json')){
-        latestEmAlertResponsePath = '/latestEmAlertResponse.json'
-    }
-    //const latestEmAlertResponsePath = path.resolve('/latestEmAlertResponse.json');
-    //fs.writeFileSync(path.resolve(previousEmAlertResponsePath), emAlertResponse, "utf-8") //try it later
-    const writeFilePromise = new Promise((resolve, reject) => {
-        fse.write(path.resolve(latestEmAlertResponsePath), emAlertResponse, err => {
-            if (err) {
-                return reject(err)
-            }
-            resolve()
-        })
-    })
-
-    await writeFilePromise
-    return latestEmAlertResponsePath
-} */
-
 /**Compares the previous emAlert response to the latest emAlert response from server
  * @return returns true if equal or false if not equal*/
 export function isPreviousToLatestEmAlertResponseEqual(latestEmAlertResponse) {
-    //const stringSimilarity = require('string-similarity');
 
-    //let previousEmAlertResponse = fs.readFileSync(path.resolve('/latestEmAlertResponse.json'));
     let previousEmAlertResponse = localStorage.getItem('previousEmAlertResponse')
 
     return previousEmAlertResponse === JSON.stringify(latestEmAlertResponse)
-
-    /* const similarity = stringSimilarity.compareTwoStrings(previousEmAlertResponse, latestEmAlertResponse);
-     console.log('similarity: ', similarity)
-
-     return similarity*/
 }
 
 //compares previous and latest emAlert response and saves the difference to localStorage and return the difference
@@ -160,16 +132,11 @@ export function comparePreviousToLatestEmAlertResponse(latestEmAlertResponse, pr
     let newEmAlertResponseArr = []
 
     if ((previousEmAlertResponse.length <= 0)) {
-        // console.log('previousEmAlertResponse is possible null : ', previousEmAlertResponse)
-        // for the very first time
-        //localStorage.setItem('emAlertResponseDifference', JSON.stringify(latestEmAlertResponse))
         newEmAlertResponseArr = latestEmAlertResponse
         return newEmAlertResponseArr
     }
 
     if (JSON.stringify(latestEmAlertResponse) === JSON.stringify(previousEmAlertResponse)) {
-        // console.log('latest and previous is equal i.e. no new emAlert, hence, do nothing')
-        // console.log('previous ', previousEmAlertResponse, 'latest: ', latestEmAlertResponse)
 
         return // dont do nothing if they are equal
     }
