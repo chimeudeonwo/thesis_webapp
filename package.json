@@ -1,0 +1,26 @@
+{
+  "name": "node-project",
+  "version": "1.0.0",
+  "description": "sec desktop web application",
+  "type": "module",
+  "main": "src/js/pureJs.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Patrick Chimeudeonwo",
+  "license": "ISC",
+  "dependencies": {
+    "file-system": "^2.2.2",
+    "fs-extra": "^10.0.0",
+    "node": "^16.9.1",
+    "string-similarity": "^4.0.4",
+    "ts-node": "^10.2.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.15.5",
+    "@babel/preset-env": "^7.15.6",
+    "babelify": "^10.0.0",
+    "tinyify": "^3.0.0"
+  }
+}

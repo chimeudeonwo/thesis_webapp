@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>EmSys</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="em_sys_style.css">
+    <style>
+        table, th, td {
+            border:1px solid black;
+        }
+    </style>
+    <script>
+        async function realTimeEmAlert() {
+            return fetch("http://localhost:8080/api/v1/victim/getEmAlert/2759") /*, {
+                method: 'GET', // *GET, POST, PUT, DELETE, etc.
+                mode: 'no-cors', // cors, *cors, same-origin
+                cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+                credentials: 'same-origin', // include, *same-origin, omit
+                headers: {
+                    'Authorization': 'Bearer ',
+                    'Content-Type': 'application/json'
+                    // 'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                redirect: 'follow', // manual, *follow, error
+                referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+                body: JSON.stringify({}) // body data type must match "Content-Type" header
+            });
+
+            console.log('response from method: ' + response)
+            return response.json(); // parses JSON response into native JavaScript objects
+        } */
+                .then(response => response.text())
+                .then(data => console.log('fetch: ' + data))
+        }
+    </script>
+
+    <script type="text/javascript">
+        async function clickMe(){
+            document.getElementById('btn').onclick
+            const respData = await realTimeEmAlert();
+            console.log("resp.localDate: " + respData)
+            updateTableFields(respData)
+            //function() { alert('Hi'); };
+        };
+    </script>
+
+    <script type="text/javascript">
+        /*window.onload = function componentDidMount(){
+            console.log('compo loaded!')
+            // return setInterval(()=> clickMe(), 10000)
+        }*/
+    </script>
+
+    <script type="text/javascript">
+        function updateTableFields(restData){
+            let vid = document.getElementById('vid')    //.innerHTML = "35478"//restData.then(data => data)
+            let city = document.getElementById('city')
+            let date = document.getElementById('date')
+            let loc = document.getElementById('loc')
+            let time = document.getElementById('time')
+            let status = document.getElementById('stat')
+            let tr1 = document.getElementById('tr1')
+
+            console.log('vid.innerText: ' + vid.innerText)
+
+            vid.innerHTML = '35478' + Math.random() //restData.victimId
+            city.innerHTML = 'HB'
+            date.innerHTML = new Date().getDate()
+            loc.innerHTML = 'HB' + 1
+            time.innerHTML = new Date().getTime()
+            status.innerHTML = 'new'
+
+            if (localStorage.getItem('vid') !== vid.innerText) {
+                console.log('new value arrived and saved')
+                localStorage.setItem('vid', vid.innerText)
+                localStorage.setItem('city', city.innerText)
+                tr1 = updateColumnColorIfNewDataArrived(tr1)
+                //vid = updateColumnColorIfNewDataArrived(vid)
+            } else {
+                console.log('no new value')
+            }
+
+        }
+    </script>
+
+    <script>
+        function updateColumnColorIfNewDataArrived(column){
+            return column.style.backgroundColor = 'red'
+            // document.body.style.background = color;
+        }
+    </script>
+
+</head>
+<body>
+<div class="welcome_pos">
+    <h1>Welcome To EmSys Web Application For Security Agencies</h1>
+</div>
+
+<div id="em_alert_display_section" style="display:none">
+    <!-- EmAlert Response table -->
+    <table id="table-emAlert-response" style="width:100%" >
+        <tr id="table-emAlert-response-head" style="background-color: #03f8f8; font-size: 20px; color: #022323">
+            <th>EmAlertResponseId</th>
+            <th>AgencyId</th>
+            <th>EmAlertId</th>
+            <th>SentStatus</th>
+            <th>ReceivedStatus</th>
+            <th>CurrentStatus</th>
+            <th>Date</th>
+            <th>Duration</th>
+        </tr>
+    </table>
+</div>
+
+
+<br>
+<div id="login_form_section" style="display:block" class="login_pos">
+    <div>
+        <h2>Login to your account</h2>
+    </div>
+    <form id="loginForm">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required><br><br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required><br><br>
+    </form>
+
+    <br>
+    <button id="login">Login</button>
+
+    <!--<button id="localStore" onclick="getItemFromLocalStorage()">DisplayAuthToken</button>
+    <button id="fetch" onclick="fetch_api()">Fetch</button>
+
+    <button id="userHome">UserHome</button> -->
+</div>
+
+<script type="module"  src="./src/js/pureJs.js"></script>
+<!--<script type="module"  src="bundle.js"></script>-->
+
+</body>
+</html>

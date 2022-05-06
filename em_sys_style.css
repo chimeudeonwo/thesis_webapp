@@ -1,0 +1,14 @@
+
+.hide-table{
+display: none;
+}
+
+.welcome_pos {
+    align-content:center;
+    padding-left: 20%;
+}
+
+.login_pos {
+    align-content:center;
+    padding-left: 35%;
+}
