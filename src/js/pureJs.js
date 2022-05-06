@@ -172,24 +172,6 @@ async function getAuthToken(url, reqInit) {
     if (resp.status === 200) {
         return resp.json()
     }
-
-   /* return fetch(url, reqInit)
-         .then(function onSuccess(response) {
-             response.text().then(function onSuccess(text) {
-                 let toJsonObj = {jwtToken: '', userId: 0}
-                 let toJson = JSON.parse(text)
-                 if (!toJson.jwtToken) {
-                     console.error('jwt auth null | undefined ')
-                     return
-                 }
-                 localStorage.setItem('jwtToken', toJson.jwtToken)
-                 localStorage.setItem('userId', toJson.userId)
-             }, function onFail(text) {
-                 console.log('failed to get auth token: ' + text)
-             });
-         }, function onFailure(response) {
-             console.log('Auth token fetch call Failed!: ' + response)
-         }); */
 }
 
 const responseJson = {
@@ -203,25 +185,16 @@ const responseJson = {
 // -------------------------- Starts -----------------------------------
 async function make_a_request(url, requestInit) {
     const resp = fetch(url, requestInit)
-    const result = (await resp).text() //await resp//
-    //console.log(await result.json());
+    const result = (await resp).text()
     let latestEmAlertResponses = JSON.parse(await result)
-    //let resultToJson = await resp.json()
-    //console.log(resultToJson);
 
     if (!latestEmAlertResponses) {
         throw new Error('make_a_request returned null or undefined')
     }
     console.log('make-a-request called!')
 
-    /*fetch(url, requestInit)
-        .then(resp => resp.json())
-        .then((packageJson) => {
-            console.log(packageJson);
-        }); */
     //call the display function only if new emResponse arrives
     createDefaultDisplayEmAlertResponseOfThisAgency(latestEmAlertResponses, 'tableId')
-
 }
 
 //----------------End -------------------
@@ -236,29 +209,4 @@ export async function postClientResponse(emResponseId) {
     const rcvStatusUrl = `http://localhost:8080/api/v1/victim/getEmAlertResponse/${localStorage.getItem('userId')}` //user must be agency
     const clientResponse = fetch(rcvStatusUrl, requestPostInit(postBody))
     return (await clientResponse).text()
-}
-
-/**post the to the emResponseTable status received after it has received*/
-async function fetchEmAlertResponse(url) {
-    const emAlertResponse = await make_a_request(url, requestGetInit())
-    //displayEmAlertResponse(emAlertResponse)
-    //displayEmAlertResponse(JSON.parse(localStorage.getItem('emAlertResponseDifference')))
-}
-
-// onload, fetches all emAlert response associated with this agency that are not a new emAlert response
-async function fetchNotNewEmAlertResponse() {
-    const notNewUrl = `http://localhost:8080/api/v1/victim/notNewEmAlertResponse/${localStorage.getItem('userId')}`
-    const data = fetch(notNewUrl, requestPostInit({}))
-    return (await data).text()
-}
-
-function getAllNewEmAlertResponseIdAsStringArr(resultToJsonArray) {
-    let stringArr = [];
-    for (let index = 0; index < resultToJsonArray.length; index++) {
-        //check the status if it is new, save the emAlertResponseId
-        if (resultToJsonArray[index].currentStatus === 'new') {
-            stringArr.push(resultToJsonArray[index].emAlertResponseId)
-        }
-    }
-    return stringArr.toString()
 }
