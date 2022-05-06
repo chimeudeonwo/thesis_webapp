@@ -1,1 +1,1 @@
-# thesis_webapp
+# Bachelor Thesis of Patrick Chimeudeonwo
